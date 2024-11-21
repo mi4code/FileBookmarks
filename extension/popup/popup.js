@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	};
 
-	document.querySelector("#betabrowser-bookmark-saver div div p").oncontextmenu = function(e) {
+	document.querySelector("#betabrowser-bookmark-saver div div div").oncontextmenu = function(e) {
 		e.preventDefault();
 		
 		let input = document.createElement("input");
@@ -124,6 +124,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			image_from_file(input.files[0]);
 		};
 		input.click();
+	}
+	
+
+	document.querySelector("#betabrowser-bookmark-saver div div div").onclick = async function () {
+		const clipboardItems = await navigator.clipboard.read();
+		for (const item of clipboardItems) {
+			const fileType = item.types.find(type => type.startsWith('image/'));
+			if (fileType) {
+				const blob = await item.getType(fileType);
+				const file = new File([blob], 'clipboard-image', { type: blob.type });
+				image_from_file( file );
+				return;
+			}
+		}
 	}
 
 });

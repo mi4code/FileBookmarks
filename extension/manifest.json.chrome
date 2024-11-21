@@ -3,7 +3,7 @@
   "name": "File Bookmarks",
   "version": "0.1",
   "description": "Save your web bookmarks as files with optional offline content.",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab","clipboardRead"],
   "icons": {
     "16": "images/icon.png",
     "32": "images/icon.png",
