@@ -2,6 +2,8 @@
 
 if (typeof browser == 'undefined') { browser = chrome;}
 
+var content_files = [];
+
 
 function image_from_url(url){
 	let canvas = document.querySelector('#betabrowser-bookmark-saver div div').appendChild(document.createElement("canvas"));
@@ -39,9 +41,6 @@ function image_from_html(element){ // its slow + img too big
 
 
 document.addEventListener('DOMContentLoaded', function() {
-
-	//console.log("ok");
-	//document.querySelector("h1").onclick = function(){chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => { console.log(tabs[0].url); document.querySelector('h1').innerText = tabs[0].url; });};
 	
 	browser.tabs.query({ active: true, currentWindow: true }).then(function(tabs){
 		document.querySelector("#betabrowser-bookmark-saver div #title").value = tabs[0].title;
@@ -83,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.querySelector("#betabrowser-bookmark-saver div #save").onclick = function(){ 
 	
 		let filename = document.querySelector("#betabrowser-bookmark-saver div #title").value+".htmlfb";
-		let data = create(document.querySelector("#betabrowser-bookmark-saver div #title").value,document.querySelector("#betabrowser-bookmark-saver div #url").value,document.querySelectorAll("#betabrowser-bookmark-saver div div canvas"));
+		let data = create(document.querySelector("#betabrowser-bookmark-saver div #title").value,document.querySelector("#betabrowser-bookmark-saver div #url").value,[...document.querySelectorAll("#betabrowser-bookmark-saver div div canvas"), ...content_files]);
 		
 		if (navigator.userAgent.toLowerCase().includes('firefox') && navigator.platform.toLowerCase().includes("android")){
 			window.open('data:text/htmlfb;charset=utf-8,' + encodeURIComponent(data), "_blank");
@@ -97,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.body.appendChild(element);
 		element.click();
 		document.body.removeChild(element);
+		
+		window.close();
 
 	};
 	
@@ -121,7 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		let input = document.createElement("input");
 		input.type = "file";
 		input.onchange = function(){
-			image_from_file(input.files[0]);
+			if (input.files[0].type.startsWith("image/")) {
+				image_from_file(input.files[0]);
+			}
+			else {
+				content_files.push(input.files[0]);
+			}
 		};
 		input.click();
 	}
