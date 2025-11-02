@@ -11,7 +11,7 @@ Save your web bookmarks as files with optional offline content.
 <img>data url of screenshot/image - best converted to webp with 60% quality</img> ~optional
 <html>saved html of the page (must be one file and one line)</html> ~optional
 <video>data url of video (from youtube/instagram/tiktok/html5/...) - best with reduced size (av1 codec)</video> ~optional
-<file>filename:dataurl (the file may be compressed)</file>
+<file>filename:dataurl (the file may be compressed)</file> ~optional
 ```
 <!-- 
  datetime (GMT=UTC; the time written is current time at your timezone - UTC time has to be calculated )  <https://stackoverflow.com/questions/31089749/how-do-you-set-a-strftime-with-javascript>
